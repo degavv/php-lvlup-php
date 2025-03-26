@@ -1,0 +1,11 @@
+.error {
+    width: 300px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(215, 85, 85);
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 150px);
+}
