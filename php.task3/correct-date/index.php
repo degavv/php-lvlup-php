@@ -4,7 +4,7 @@ $month = (int) $_GET['month'];
 $year = (int) $_GET['year'];
 $is_leap = false;
 $is_correct = false;
-$msg = "Дата введена не коректно";
+$msg = "";
 $days = [
     1 => 31,
     2 => 28,
@@ -30,14 +30,11 @@ if ($year % 400 === 0) {
 
 if (($month > 0 && $month <= 12) && ($date > 0 && $date <= 31)) {
     $is_correct = true;
-} else {
-    $is_correct = false;
 }
 
 if ($is_correct) {
-    if ((!$is_leap) || ($is_leap && $month != 2)) {
+    if ((!$is_leap) || ($is_leap && $month !== 2)) {
         if ($date <= $days[$month]) {
-            echo "true";
             $is_correct = true;
         } else {
             $is_correct = false;
@@ -49,32 +46,38 @@ if ($is_correct) {
     }
 }
 
-if ($is_correct){
-    $mgs = 'Дата введена вірно';
+if ($is_correct) {
+    $msg = 'Дата введена вірно';
+} else {
+    $msg = "Дата введена не коректно";
+}
+
+if (($_GET['date'] === null) || ($_GET['month'] === null) || ($_GET['year'] === null)){
+    $msg = '';
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day of the week</title>
+    <title>Коректність дати</title>
 </head>
 
 <body>
     <form action="/correct-date/index.php">
-        <label for="date">Date</label>
+        <label for="date">Дата</label>
         <input type="number" max="31" min="1" step="any" name="date" id="date">
-        <label for="month">Month</label>
+        <label for="month">Місяць</label>
         <input type="number" max="12" min="1" step="any" name="month" id="month">
-        <label for="year">Year</label>
+        <label for="year">Рік</label>
         <input type="number" min="1582" step="any" name="year" id="year">
         <input type="submit">
     </form>
-    <div><?php echo "Date {$date} Month {$month} Year {$year}"; ?></div>
+    <div><?php echo "Дата {$date} Місяць {$month} Рік {$year}"; ?></div>
     <div>
-        <p><?=$msg ?></p>
+        <p><?= $msg ?></p>
     </div>
 </body>
 
