@@ -18,7 +18,7 @@ $days_list = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 </head>
 
 <body>
-    <form action="/proc.php">
+    <form action="/index.php">
         <label for="date">Date</label>
         <input type="number" max="31" min="1" step="any" name="date" id="date">
         <label for="month">Month</label>
