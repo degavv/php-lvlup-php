@@ -6,7 +6,6 @@ $factorial = 1;
 if ($number < 0) {
     echo "Значення не може бути від'ємним ";
     $factorial = null;
-} elseif ($number === 0) {
 } else {
     for ($i = 1; $i <= $number; $i++) {
         $factorial *= $i;
