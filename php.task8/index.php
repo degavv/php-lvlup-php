@@ -2,8 +2,8 @@
 function validateInputValues(): array
 {
     $errors = [];
-    $num = $_GET["number"] ?? null;
-    $pow = $_GET["power"] ?? null;
+    $num = $_POST["number"] ?? null;
+    $pow = $_POST["power"] ?? null;
 
     if ($num === null || $num === '') {
         $errors[] = "Число не введено";
@@ -16,16 +16,18 @@ function validateInputValues(): array
     if ($pow === null || $pow === '') {
         $errors[] = "Степінь не введено";
     } elseif (!is_numeric($pow)) {
-        $errors[] = "Показник степеня має бути числовим значенням.";
-    } else {
+        $errors[] = "Степінь має бути числовим значенням";
+    } else{
         $power = (int) $pow;
+        if (($power - $pow) !== 0)
+        $errors[] = "Степінь має бути цілим числом";
     }
 
     if (empty($errors)) {
         return [
             'valid' => true,
-            'number' => (float) $number,
-            'power' => (int) $power,
+            'number' => $number,
+            'power' => $power,
         ];
     }
 
@@ -56,12 +58,13 @@ function exponent($number, $power): int|float
     return $result;
 }
 
-function main() {
+function main()
+{
     $inputValues = validateInputValues();
 
     if ($inputValues['valid']) {
         $number = $inputValues['number'];
-        $power =  $inputValues['power'];
+        $power = $inputValues['power'];
         $res = exponent($number, $power);
         return $res;
     } else {
@@ -88,7 +91,7 @@ $res = main();
 
 <body>
     <h1>Піднесення числа до степеня</h1>
-    <form action="/index.php">
+    <form action="/index.php" method="post">
         <label for="number">Число</label>
         <input type="text" id="number" name="number" placeholder="Введіть число">
         <label for="power">Степінь</label>
