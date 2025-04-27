@@ -9,4 +9,4 @@ function calcSum($startNum, $endNum): int
     return $result;
 }
 
-var_dump(calcSum(5,5));
+var_dump(calcSum(5,6));
