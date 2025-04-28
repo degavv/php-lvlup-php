@@ -11,13 +11,15 @@
 <body>
     <div class="page-wrapper">
         <header>
-            <div class="logo">UkrBlog</div>
-            <?php if (!isAuth()): ?>
+            <div class="logo">
+                <a href="index.php">UkrBlog</a>
+            </div>
+            <?php if ($params['hide_login_form'] === false): ?>
             <?php include_once 'app/views/common/login.php' ?>
             <?php endif ?>
         </header>
         <main>
-            <?= $page ?>
+            <?php include_once 'app/views/pages/' . $page . '_page.php' ?>
         </main>
         <footer>
             <span>Vadym Dehtiarenko &copy;</span>

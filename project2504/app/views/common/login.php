@@ -6,5 +6,5 @@
         </div>
         <button type="submit"><img src="/img/login.png" alt="Вхід" class="login-img"></button>
     </form>
-    <a href="#">Реєстрація</a>
+    <a href="registration.php">Реєстрація</a>
 </div>
