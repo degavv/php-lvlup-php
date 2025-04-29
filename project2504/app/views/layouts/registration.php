@@ -14,11 +14,6 @@
             <div class="logo">
                 <a href="index.php">UkrBlog</a>
             </div>
-            <?php if ($is_auth === false): ?>
-            <?php include_once 'app/views/common/login.php' ?>
-            <?php else: ?>
-            <?php include_once 'app/views/common/logout.php' ?>
-            <?php endif ?>
         </header>
         <main>
             <?php include_once 'app/views/pages/' . $page . '_page.php' ?>

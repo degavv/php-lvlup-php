@@ -85,3 +85,13 @@ form.reg-form>* {
 h1{
     margin-bottom: 20px;
 }
+
+.login-error{
+    color: #ff0000;
+    font-weight: 600;
+}
+
+.auth span{
+    font-size: 16px;
+    font-weight: 600;
+}

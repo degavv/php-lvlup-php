@@ -1,27 +1,46 @@
 <?php
 
-function index(): void
+// $isAuth = checkSession();
+function signin(): void
 {
-    view('index', ['hide_login_form' => isAuth()]);
     login();
-    // saveCredentials('','123qwe');
+}
+
+function index(): void
+{   
+    $isAuth = false;
+    $userName = getSessionValue('login');
+    $errorMsg = getSessionValue('error_msg');
+    // session_start();
+    // var_dump($_SESSION);
+    // var_dump($_REQUEST);
+    // var_dump($_COOKIE);
+    if($userName !==null){
+        $isAuth = true;
+    }
+    view('index', [
+        'is_auth' => $isAuth,
+        'user_name' => $userName,
+        'error_msg' => $errorMsg,
+    ]);
 }
 
 function registration(): void
 {
-    $redirectUrl = '/registration.php';
-    view('registration');
+    $isAuth = false;
+    // $redirectUrl = '/registration.php';
+    view('registration', ['is_auth' => $isAuth], 'registration');
 
-    $regCredentials = getRegCredentials();
-    if ($regCredentials){
-        $isValid = validateRegCredentials($regCredentials);
-        if ($isValid){
-            $isSave = saveCredentials($regCredentials);
+    // $regCredentials = getRegCredentials();
+    // if ($regCredentials) {
+    //     $isValid = validateRegCredentials($regCredentials);
+    //     if ($isValid) {
+    //         $isSave = saveCredentials($regCredentials);
 
-        }
-    }
+    //     }
+    // }
 
-    if ($isSave){
-        redirect();
-    }
+    // if ($isSave) {
+    //     redirect();
+    // }
 }

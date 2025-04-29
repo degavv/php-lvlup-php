@@ -1,5 +1,16 @@
 <?php
-
+/**
+ * Summary of view
+ * @param string $page
+ * @param array $params isAuth : bool,
+ * @param string $layout
+ * @return void
+ */
+function view(string $page, array $params = [], string $layout = "default"): void
+{
+    extract($params);
+    include_once 'app/views/layouts/' . $layout . '.php';
+}
 function isAuth(): bool
 {
     return false;
@@ -27,45 +38,70 @@ function getUserByLogin(string $login): array|null
     return $findedUser;
 }
 
-function login()
+// function login(): string
+// {
+//     $login = filter_input(INPUT_POST, 'login');
+//     // $login = $login ? htmlspecialchars($login, ENT_QUOTES, 'UTF-8') : null;
+//     $pass = filter_input(INPUT_POST, 'pass');
+//     $user = getUserByLogin($login);
+//     $errorMsg = null;
+//     if (!$user) {
+//         $errorMsg = 'Невірний логін чи пароль';
+//     } else {
+//         if (!password_verify($pass, $user['pass'])) {
+//             $errorMsg = 'Невірний логін чи пароль';
+//         }  
+//     }
+//     setcookie('error_msg', $errorMsg, time()+60*60*5);
+//     // redirect();
+//     header('Location: index.php');
+//     exit();
+// }
+
+function login(): void
 {
+    session_start();
     $login = filter_input(INPUT_POST, 'login');
-    $login = $login ? htmlspecialchars($login, ENT_QUOTES, 'UTF-8') : null;
     $pass = filter_input(INPUT_POST, 'pass');
     $user = getUserByLogin($login);
-    if (!$user) {
-        //TODO error no login or pass
-        exit('Incorrect login or password');
-    } else {
-        if (!password_verify($pass, $user['pass'])) {
-            //TODO error no login or pass
-            exit('Incorrect login or password');
-        } else {
-            exit('Hello, ' . $login);
-        }
+
+    //Помилка автентифікації
+    if (!$user || !password_verify($pass, $user['pass'])) {
+        $_SESSION['error_msg'] = 'Невірний логін чи пароль';
+        redirect();
     }
+
+    // Успішний вхід — зберігаємо сесію
+    $_SESSION['login'] = $login;
+    unset($_SESSION['error_msg']);
+
+    header('Location: index.php');
+    redirect();
 }
 
-function view(string $page, array $params = [], string $layout = "default"): void
+function logout(string $url = 'index.php'): void
 {
-    $components = [
-        'registration_btn',
-        'login_form',
-        'logout_form',
-        'create_article_btn',
-    ];
-    include_once 'app/views/layouts/' . $layout . '.php';
+    session_start();
+    $_SESSION = [];
+    $cookieParams = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 3600,
+        $cookieParams["path"], $cookieParams["domain"],
+        $cookieParams["secure"], $cookieParams["httponly"]
+    );
+    session_destroy();
+    redirect();
 }
+
+
 
 //Registration
 
 function getRegCredentials(): array
 {
-    $newUserCred = null;
     $login = filter_input(INPUT_POST, 'login_reg');
     $pass = filter_input(INPUT_POST, 'pass_reg');
     $passRepeat = filter_input(INPUT_POST, 'repeat_pass_reg');
-    return $newUserCred = [
+    return [
         'login' => $login,
         'pass' => $pass,
         'pass_repeat' => $passRepeat,
@@ -75,11 +111,13 @@ function getRegCredentials(): array
 function validateRegCredentials($credentials): array
 {
     //TODO errors
+    session_start();
     $errors = [];
 
     foreach ($credentials as $value) {
         if (empty($value)) {
-            $errors[] = 'Значення не може бути пустим';
+            $_SESSION['error_msg'] = 'Невірний логін чи пароль';
+            redirect('registration.php');
         }
     }
     extract($credentials);
@@ -103,10 +141,10 @@ function validateRegCredentials($credentials): array
     return $errors;
 }
 
-function saveCredentials($validateCredentials): bool
+function saveCredentials($validatedCredentials): bool
 {
-    $login = $validateCredentials['login'];
-    $pass = $validateCredentials['pass'];
+    $login = $validatedCredentials['login'];
+    $pass = $validatedCredentials['pass'];
     $passHash = password_hash($pass, PASSWORD_DEFAULT);
     $credentials = [$login, $passHash];
     $handle = fopen(PATH_TO_CRED, 'a');
@@ -120,3 +158,19 @@ function saveCredentials($validateCredentials): bool
     // var_dump(password_hash($pass, PASSWORD_DEFAULT));
 }
 
+// function createSession(string $login)
+// {
+//     session_start();
+//     $_SESSION['login'] = $login;
+// }
+
+function getSessionValue (string $value)
+{
+    session_start();
+    $value = $_SESSION[$value];
+    if (!empty($value)){
+        return htmlspecialchars($value);
+    } else {
+        return null;
+    }
+}

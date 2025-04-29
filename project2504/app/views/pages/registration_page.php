@@ -1,6 +1,6 @@
 <div class="registration">
     <h1>Реєстрація</h1>
-    <form action="<?php if($is) ?>" method="post" class="reg-form">
+    <form action="app/registration_proc.php" method="post" class="reg-form">
         <label for="login">Логін</label>
         <input type="text" id="login" name="login_reg" placeholder="Введіть логін">
         <label for="password">Пароль</label>
