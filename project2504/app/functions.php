@@ -2,7 +2,7 @@
 /**
  * Summary of view
  * @param string $page
- * @param array $params isAuth : bool,
+ * @param array $params [is_auth : bool, user_name : string, error_msg : string]
  * @param string $layout
  * @return void
  */
@@ -10,10 +10,6 @@ function view(string $page, array $params = [], string $layout = "default"): voi
 {
     extract($params);
     include_once 'app/views/layouts/' . $layout . '.php';
-}
-function isAuth(): bool
-{
-    return false;
 }
 
 function redirect(string $url = '/index.php'): never
@@ -38,26 +34,6 @@ function getUserByLogin(string $login): array|null
     return $findedUser;
 }
 
-// function login(): string
-// {
-//     $login = filter_input(INPUT_POST, 'login');
-//     // $login = $login ? htmlspecialchars($login, ENT_QUOTES, 'UTF-8') : null;
-//     $pass = filter_input(INPUT_POST, 'pass');
-//     $user = getUserByLogin($login);
-//     $errorMsg = null;
-//     if (!$user) {
-//         $errorMsg = 'Невірний логін чи пароль';
-//     } else {
-//         if (!password_verify($pass, $user['pass'])) {
-//             $errorMsg = 'Невірний логін чи пароль';
-//         }  
-//     }
-//     setcookie('error_msg', $errorMsg, time()+60*60*5);
-//     // redirect();
-//     header('Location: index.php');
-//     exit();
-// }
-
 function login(): void
 {
     session_start();
@@ -74,8 +50,7 @@ function login(): void
     // Успішний вхід — зберігаємо сесію
     $_SESSION['login'] = $login;
     unset($_SESSION['error_msg']);
-
-    header('Location: index.php');
+    // header('Location: index.php');
     redirect();
 }
 
@@ -95,7 +70,6 @@ function logout(string $url = 'index.php'): void
 
 
 //Registration
-
 function getRegCredentials(): array
 {
     $login = filter_input(INPUT_POST, 'login_reg');
@@ -108,40 +82,47 @@ function getRegCredentials(): array
     ];
 }
 
-function validateRegCredentials($credentials): array
-{
-    //TODO errors
-    session_start();
-    $errors = [];
 
+
+function validateRegCredentials($credentials): bool
+{
+    //TODO Змінити на чисту валідацію
+    session_start();
     foreach ($credentials as $value) {
         if (empty($value)) {
             $_SESSION['error_msg'] = 'Невірний логін чи пароль';
             redirect('registration.php');
         }
     }
-    extract($credentials);
 
+    extract($credentials);
     // Перевірка відповідності повтору пароля
     if ($pass !== $pass_repeat){
-        $errors[] = 'Введені паролі не співпадають';
+        $_SESSION['error_msg'] = 'Введені паролі не співпадають';
+        redirect('registration.php');
     }
     // Перевірка логіна
     if (strlen($login) < 3 || strlen($login) > 50) {
-        $errors[] = 'Логін має бути від 3 до 50 символів.';
+        $_SESSION['error_msg'] = 'Логін має бути від 3 до 50 символів.';
+        redirect('registration.php');
     } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $login)) {
-        $errors[] = 'Логін може містити тільки літери, цифри та підкреслення.';
+        $_SESSION['error_msg'] = 'Логін може містити тільки літери, цифри та підкреслення.';
+        redirect('registration.php');
     }
-
     // Перевірка пароля
     if (strlen($pass) < 6) {
-        $errors[] = 'Пароль має бути не коротший за 6 символів.';
+        $_SESSION['error_msg'] = 'Пароль має бути не коротший за 6 символів.';
+        redirect('registration.php');
     }
-    var_dump($errors);
-    return $errors;
+    return true;
 }
 
-function saveCredentials($validatedCredentials): bool
+/**
+ * Saves access attributes to a csv file. On success, returns the login.
+ * On failure, returns null
+ * @param mixed $validatedCredentials
+ */
+function saveCredentials($validatedCredentials): ?string
 {
     $login = $validatedCredentials['login'];
     $pass = $validatedCredentials['pass'];
@@ -151,9 +132,9 @@ function saveCredentials($validatedCredentials): bool
     if ($handle) {
         fputcsv($handle, $credentials);
         fclose($handle);
-        return true;
+        return $login;
     } else {
-        return false;
+        return null;
     }
     // var_dump(password_hash($pass, PASSWORD_DEFAULT));
 }
@@ -172,5 +153,83 @@ function getSessionValue (string $value)
         return htmlspecialchars($value);
     } else {
         return null;
+    }
+}
+//TODO
+/**
+ * Writes data received from the associative array to the session
+ * $array['key' => 'value]
+ * @param array $array
+ * @return void
+ */
+function writeSession (array $array): void
+{
+}
+
+function checkPost():bool
+{
+    if(($_SERVER['REQUEST_METHOD'] == 'POST') || (!empty($_POST))){
+        return true;
+    }
+    return false;
+}
+
+function saveErrorsToSession(array $errors): void
+{
+    session_start();
+    $_SESSION['errors_list'] = $errors;
+}
+
+//ARTICLE
+function validateArticle($title, $content): array
+{
+    $errors = [];
+    if (empty($title) || empty($content)) {
+        $errors[] = 'Заголовок і текст не можуть бути порожніми';
+        // $_SESSION['error_msg'] = 'Сталась помилка при реєстрації. Спробуйте ще раз';
+        // redirect('create-article.php');
+    } elseif (strlen($title) < 3 || strlen($title) > 50){
+        $errors[] = 'Довжина назви статті має бути від 3 до 100 символів';
+    }
+    return $errors;
+}
+
+function sanitizeContent (string $rawData):string
+{
+    return htmlspecialchars($rawData, ENT_QUOTES, 'UTF-8');
+}
+
+function saveArticle ($title, $content)
+{
+    $title = trim($title);
+    $content = trim($content);
+    $filename = PATH_TO_ARTICLES . time() . '.txt';
+    $articleData = $title . "\n" . $content;
+    if (!is_dir(PATH_TO_ARTICLES)) {
+        mkdir(PATH_TO_ARTICLES, 0777, true);
+    }
+    return file_put_contents($filename, $articleData);
+}
+
+function getArtirclesFromFiles (string $dirPath)
+{
+    if (!is_dir($dirPath)) {
+        // echo "Немає збережених статей.";
+        // exit;
+    }
+    $files = glob($dirPath . '/*.txt');
+    if (!$files) {
+        // echo "Немає збережених статей.";
+        // exit;
+    }
+    foreach ($files as $file) {
+        $lines = file($file, FILE_IGNORE_NEW_LINES);
+        if (count($lines) >= 2) {
+            $title = $lines[0];
+            $content = implode("\n", array_slice($lines, 1));
+            echo "<hr>";
+            echo "<h2>" . $title . "</h2>";
+            echo "<p>" . nl2br($content) . "</p>";
+        }
     }
 }

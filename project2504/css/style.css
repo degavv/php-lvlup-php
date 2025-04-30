@@ -29,20 +29,20 @@ header {
     justify-content: space-between;
 }
 
-form {
+form.form-login {
     display: flex;
     margin-bottom: 10px;
 }
 
-form>div>input:first-child {
+form.form-login>div>input:first-child {
     margin-bottom: 30px;
 }
 
-form>div>input {
+form.form-login>div>input {
     height: 20px;
 }
 
-form>div {
+form.form-login>div {
     display: flex;
     flex-direction: column;
     margin-right: 20px;
@@ -94,4 +94,22 @@ h1{
 .auth span{
     font-size: 16px;
     font-weight: 600;
+}
+
+.create-article {
+    display: flex;
+    flex-direction: column;
+}
+.create-article>form{
+    display: flex;
+    flex-direction: column;
+}
+.create-article>form>*{
+    margin-bottom: 20px;
+}
+
+.create-article>form>button{
+    height: 30px;
+    background-color: rgb(23, 188, 23);
+    border-radius: 5px;
 }
