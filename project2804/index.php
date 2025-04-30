@@ -10,4 +10,4 @@ spl_autoload_register(function ($className): bool {
 });
 
 $house = new Building(10, 20, 'Зелений', 3);
-echo ($house);
+echo $house;

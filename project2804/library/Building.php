@@ -2,13 +2,13 @@
 
 class Building
 {
-    private $height;
+    private $length;
     private $width;
     private $color;
     private $floors;
-    public function __construct(float $height, float $width, string $color, int $floors)
+    public function __construct(float $length, float $width, string $color, int $floors)
     {
-        $this->height = $height;
+        $this->length = $length;
         $this->width = $width;
         $this->color = $color;
         $this->floors = $floors;
@@ -16,10 +16,10 @@ class Building
 
     public function __tostring(): string
     {
-        return "Колір = {$this->color}, Висота = {$this->height}м, Ширина = {$this->width}м, К-ть поверхів = {$this->floors}, Площа = {$this->getArea($this->height, $this->width)}м^2";
+        return "Колір = {$this->color}, Висота = {$this->length}м, Ширина = {$this->width}м, К-ть поверхів = {$this->floors}, Площа = {$this->getArea($this->length, $this->width, $this->floors)}м^2";
     }
-    private function getArea(float $height, float $width): float
+    private function getArea(float $length, float $width, int $floors): float
     {
-        return $height * $width;
+        return $length * $width * $floors;
     }
 }
