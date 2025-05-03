@@ -3,7 +3,7 @@
  * Responsible for reading input data, executing the main logic and displaying the result
  */
 class Page
-{   
+{
     private string $page;
     private string $requestMethod;
     private object $view;
@@ -23,12 +23,12 @@ class Page
      */
     private function processRequest(): void
     {
-        if ($this->requestMethod === 'GET'){
-            $notes = $this->note->getNotesFromFile();
+        if ($this->requestMethod === 'GET') {
+            $notes = $this->note->getNotes();
             $this->view->includePage($this->page, ['notes' => $notes,]);
         } else {
-            $note = $this->note->getNoteFromPost();
-            $this->note->addNoteToFile($note);
+            $note = $this->getPostVal('note');
+            $this->note->addNote($note);
             $this->redirect();
         }
     }
@@ -37,9 +37,14 @@ class Page
      * @param string $url
      * @return never
      */
-    private function redirect(string $url = '/'):never
+    private function redirect(string $url = '/'): never
     {
         header('Location: ' . $url);
         exit();
+    }
+
+    private function getPostVal(string $key): mixed
+    {
+        return filter_input(INPUT_POST, $key);
     }
 }

@@ -16,6 +16,7 @@
                 <tr>
                     <td class="table-number"><?= $i + 1 ?></td>
                     <td><?= $note ?></td>
+                    <td><a href="<?='index.php?action=delete&id='.$i?>"><img src="img/icons8-trash.svg" alt="trash"></a></td>
                 </tr>
             <?php endforeach ?>
         </tbody>

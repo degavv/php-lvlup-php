@@ -1,5 +1,5 @@
 <?php
-
-const NOTES_FILE = 'storage/notes.json';
+const DATA_DIR = 'storage';
+const NOTES_FILE = 'notes.json';
 const SITE_NAME = 'Назва сайту';
 const TITLE = ['index' => 'Головна сторінка',];

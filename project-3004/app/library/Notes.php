@@ -3,46 +3,65 @@
  * Responsible for writing and reading notes from the file
  */
 class Notes
-{   
+{
     /**
-     * Reads the note value from a POST array and return it
-     * @return string
+     * List of notes
+     * @var array
      */
-    public function getNoteFromPost(): string
+    private array $notes = [];
+    private bool $isChanged = false;
+    public string $absoluteStoragePath;
+    public string $absoluteNotesPath;
+
+    public function __construct()
     {
-        $note = filter_input(INPUT_POST, 'note');
-        return $note;
+        $this->absoluteStoragePath = getcwd() . DIRECTORY_SEPARATOR . DATA_DIR;
+        $this->absoluteNotesPath = $this->absoluteStoragePath . DIRECTORY_SEPARATOR . NOTES_FILE;
+        $this->checkDir($this->absoluteStoragePath);
+        if (file_exists($this->absoluteNotesPath)) {
+            $this->notes = $this->getNotesFromFile();
+        }
     }
+
+    public function __destruct()
+    {
+        if ($this->isChanged) {
+            $notesDecoded = json_encode($this->notes);
+            file_put_contents($this->absoluteNotesPath, $notesDecoded);
+        }
+    }
+
+    public function getNotes(): array
+    {
+        return $this->notes;
+    }
+
     /**
      * Reads notes from a file and returns them as a list
      * @return array
      */
-    public function getNotesFromFile(): array
+    private function getNotesFromFile(): array
     {
         $notes = [];
-        if(file_exists(NOTES_FILE)){
-            $jsonNotes = file_get_contents(NOTES_FILE);
+        if (file_exists($this->absoluteNotesPath)) {
+            $jsonNotes = file_get_contents($this->absoluteNotesPath);
             $notesDecoded = json_decode($jsonNotes, true);
-            if ($notesDecoded !== null){
+            if ($notesDecoded !== null) {
                 $notes = $notesDecoded;
             }
         }
         return $notes;
     }
-    /**
-     * Add new note to file
-     * @param string $note
-     * @return bool
-     */
-    public function addNoteToFile(string $note):bool
+
+    public function addNote(string $note): void
     {
-        $notes = $this->getNotesFromFile();
-        $notes[] = $note;
-        $isSaved = file_put_contents(NOTES_FILE, json_encode($notes));
-        if($isSaved){
-            return true;
-        }
-        return false;
+        $this->notes[] = $note;
+        $this->isChanged = true;
+    }
+
+    public function deleteNote(int $id):void
+    {
+        array_splice($this->notes, $id);
     }
     /**
      * check and create dir
@@ -55,6 +74,4 @@ class Notes
             mkdir($dir);
         }
     }
-
-
 }
