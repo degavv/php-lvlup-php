@@ -7,6 +7,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <?php include_once 'app/pages/' . $page . '_page.php'?>
+    <?php include_once 'app/views/pages/' . $page . '_page.php'?>
 </body>
 </html>

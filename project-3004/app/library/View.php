@@ -7,16 +7,18 @@ class View
     /**
      * Include the html page
      * @param string $page
-     * @param array $params accepts keys: 'notes' => array,
+     * @param array $params accepts keys: 'notes' => array, 'editId' => int, 'valid_errors' => list, 'unvalid_note' => str,
      * @param string $template
      * @return void
      */
-    public function includePage(string $page, array $params = [], string $template = 'default'): void
+    public function render(string $page, array $params = [], string $template = 'default'): void
     {
         extract($params);
         $title = $this->getTitle($page);
-        include_once 'app/templates/' . $template . ".php";
+        // var_dump($unvalid_note);
+        include_once 'app/views/templates/' . $template . ".php";
     }
+
     private function getTitle(string $page):string
     {
         $title = TITLE[$page];

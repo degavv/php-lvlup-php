@@ -61,7 +61,16 @@ class Notes
 
     public function deleteNote(int $id):void
     {
-        array_splice($this->notes, $id);
+        array_splice($this->notes, $id,1);
+        $this->isChanged = true;
+    }
+
+    public function editNote(int $id, string $note): void
+    {
+        if ($this->notes[$id] !== $note){
+            $this->notes[$id] = $note;
+            $this->isChanged = true;
+        }
     }
     /**
      * check and create dir

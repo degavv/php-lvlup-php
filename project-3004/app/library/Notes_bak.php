@@ -5,15 +5,6 @@
 class Notes
 {   
     /**
-     * Reads the note value from a POST array and return it
-     * @return string
-     */
-    public function getNoteFromPost(): string
-    {
-        $note = filter_input(INPUT_POST, 'note');
-        return $note;
-    }
-    /**
      * Reads notes from a file and returns them as a list
      * @return array
      */
