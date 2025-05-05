@@ -30,7 +30,10 @@ class Notes
             file_put_contents($this->absoluteNotesPath, $notesDecoded);
         }
     }
-
+    /**
+     * returns a list of notes
+     * @return array
+     */
     public function getNotes(): array
     {
         return $this->notes;
@@ -53,18 +56,34 @@ class Notes
         return $notes;
     }
 
+    /**
+     * adds a note to the list of notes
+     * @param string $note
+     * @return void
+     */
     public function addNote(string $note): void
     {
         $this->notes[] = $note;
         $this->isChanged = true;
     }
 
+    /**
+     * delete Note
+     * @param int $id
+     * @return void
+     */
     public function deleteNote(int $id):void
     {
         array_splice($this->notes, $id,1);
         $this->isChanged = true;
     }
 
+    /**
+     * edits a note by id
+     * @param int $id
+     * @param string $note
+     * @return void
+     */
     public function editNote(int $id, string $note): void
     {
         if ($this->notes[$id] !== $note){
@@ -72,6 +91,7 @@ class Notes
             $this->isChanged = true;
         }
     }
+
     /**
      * check and create dir
      * @param string $dir

@@ -9,7 +9,7 @@
 
     <form action="/" method="post" autocomplete="off">
         <input type="text" name="note" placeholder="Введіть текст" maxlength="160" required 
-        <?php if (!is_int($edit_id)) echo 'autofocus'; ?> 
+        <?php if (!is_int($edit_id)) echo 'autofocus'; ?>
         <?php if (isset($unvalid_note)) echo ' value="' . htmlspecialchars($unvalid_note) . '"'; ?>>
         <button type="submit">Додати нотатку</button>
     </form>

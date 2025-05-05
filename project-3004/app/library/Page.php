@@ -17,7 +17,11 @@ class Page
         $this->handleRequest();
     }
 
-    public function handleRequest()
+    /**
+     * Requests handler
+     * @return void
+     */
+    public function handleRequest(): void
     {
         if ($this->requestMethod === 'GET') {
             $this->handleGet();
@@ -28,6 +32,11 @@ class Page
         }
     }
 
+    /**
+     * Includes index page
+     * @param mixed $params
+     * @return void
+     */
     private function index($params = []): void
     {
         $notes = $this->note->getNotes();
@@ -35,6 +44,10 @@ class Page
         $this->view->render($this->page, $params);
     }
 
+    /**
+     * GET request handler
+     * @return void
+     */
     private function handleGet(): void
     {
         if (isset($_GET['action']) && isset($_GET['id'])) {
@@ -44,6 +57,12 @@ class Page
         }
     }
 
+    /**
+     * Delete & Update handler
+     * @param string $action
+     * @param int $id
+     * @return void
+     */
     private function handleAction(string $action, int $id): void
     {
         switch ($action) {
@@ -60,7 +79,10 @@ class Page
         }
     }
 
-    //TODO Додати валідацію або фільтрацію
+    /**
+     * POST request handler
+     * @return void
+     */
     private function handlePost(): void
     {
         if (isset($_POST['note'])) {
@@ -75,15 +97,26 @@ class Page
         }
     }
 
+    /**
+     * validation of input values
+     * @param mixed $note
+     * @return string[]
+     */
     private function validateNote($note): array
     {
         $errors = [];
-        if (mb_strlen($note) < 4) {
-            $errors[] = 'Довжина має бути довше 3 символів';
+        if (mb_strlen($note) < 6) {
+            $errors[] = 'Довжина має бути довше 5 символів';
         }
         return $errors;
     }
 
+    /**
+     * Handler for working with notes
+     * @param string $fieldName
+     * @param mixed $id
+     * @return void
+     */
     private function processNote(string $fieldName, ?int $id = null): void
     {
         $noteRaw = filter_input(INPUT_POST, $fieldName);
@@ -100,12 +133,23 @@ class Page
         }
     }
 
+    /**
+     * Adds a new note
+     * @param string $note
+     * @return never
+     */
     private function addNewNote(string $note): never
     {
         $this->note->addNote($note);
         $this->redirect();
     }
     
+    /**
+     * edits a note
+     * @param int $id
+     * @param string $note
+     * @return never
+     */
     private function editNote(int $id, string $note): never
     {
         $this->note->editNote($id, $note);
