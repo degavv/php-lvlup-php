@@ -28,7 +28,7 @@ class Page
         } elseif ($this->requestMethod === 'POST') {
             $this->handlePost();
         } else {
-            $this->view->includePage(page: 'error');
+            $this->view->render(page: 'error');
         }
     }
 
@@ -89,26 +89,12 @@ class Page
             $this->processNote('note');
         } elseif (isset($_POST['edit_note']) && isset($_POST['id'])) {
             $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
-            if ($id) {
+            if (is_int($id)) {
                 $this->processNote('edit_note', $id);
             }
         } else {
             $this->view->render(page: 'error');
         }
-    }
-
-    /**
-     * validation of input values
-     * @param mixed $note
-     * @return string[]
-     */
-    private function validateNote($note): array
-    {
-        $errors = [];
-        if (mb_strlen($note) < 6) {
-            $errors[] = 'Довжина має бути довше 5 символів';
-        }
-        return $errors;
     }
 
     /**
@@ -129,8 +115,23 @@ class Page
                 $this->editNote($id, $note);
             }
         } else {
-            $this->index(['valid_errors' => $errors, 'unvalid_note' => $noteRaw]);
+            //Якщо edit_id = null це форма введення, якщо число - це форма редагування
+            $this->index(['valid_errors' => $errors, 'unvalid_note' => $noteRaw, 'edit_id' => $id]);
         }
+    }
+
+    /**
+     * validation of input values
+     * @param mixed $note
+     * @return string[]
+     */
+    private function validateNote($note): array
+    {
+        $errors = [];
+        if (mb_strlen($note) < 6) {
+            $errors[] = 'Довжина має бути довше 5 символів';
+        }
+        return $errors;
     }
 
     /**

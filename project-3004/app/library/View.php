@@ -15,7 +15,6 @@ class View
     {
         extract($params);
         $title = $this->getTitle($page);
-        // var_dump($params);
         include_once 'app/views/templates/' . $template . ".php";
     }
 

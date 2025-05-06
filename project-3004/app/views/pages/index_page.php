@@ -1,16 +1,19 @@
 <main>
     <h1>Мої нотатки</h1>
-    <?php if (isset($valid_errors)): ?>
-        <div class="valid-errors"></div>
-        <?php foreach ($valid_errors as $error): ?>
-            <p class="error"><?= $error ?></p>
-        <?php endforeach ?>
-    <?php endif ?>
+    <!-- Виводимо всі помилки валідації з масиву $valid_errors -->
+    <div class="valid-errors">
+        <?php if (isset($valid_errors)): ?>
 
+            <?php foreach ($valid_errors as $error): ?>
+                <p class="error"><?= $error ?></p>
+            <?php endforeach ?>
+        <?php endif ?>
+    </div>
     <form action="/" method="post" autocomplete="off">
-        <input type="text" name="note" placeholder="Введіть текст" maxlength="160" required 
-        <?php if (!is_int($edit_id)) echo 'autofocus'; ?>
-        <?php if (isset($unvalid_note)) echo ' value="' . htmlspecialchars($unvalid_note) . '"'; ?>>
+        <!-- Повертаємо невалідне значення $unvalid_note в поле введення якщо $edit_id не задано -->
+        <input type="text" name="note" placeholder="Введіть текст" maxlength="160" required <?php if (!is_int($edit_id))
+            echo 'autofocus'; ?> <?php if (isset($unvalid_note) && (!is_int($edit_id)))
+                   echo ' value="' . htmlspecialchars($unvalid_note) . '"'; ?>>
         <button type="submit">Додати нотатку</button>
     </form>
     <table>
