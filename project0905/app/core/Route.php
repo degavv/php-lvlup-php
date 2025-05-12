@@ -11,17 +11,17 @@ class Route
      * default constroller
      * @var string
      */
-    const DEFAULT_CONTROLLER = 'index';
+    public const DEFAULT_CONTROLLER = 'index';
     /**
      * default action
      * @var string
      */
-    const DEFAULT_ACTION = 'index';
+    public const DEFAULT_ACTION = 'index';
     /**
      * method of processing input parameters
      * @return void
      */
-    static public function init(): void
+    public static function init(): void
     {
         $controllerName = self::DEFAULT_CONTROLLER;
         $actionName = self::DEFAULT_ACTION;
@@ -47,9 +47,13 @@ class Route
      * @param string $action
      * @return string
      */
-    public static function url(string $controller = self::DEFAULT_CONTROLLER, string $action = self::DEFAULT_ACTION): string
+    public static function url(string $controller = self::DEFAULT_CONTROLLER, string $action = self::DEFAULT_ACTION, array $params = []) : string
     {
-        return '/?controller=' . strtolower($controller) . '&action=' . strtolower($action);
+        $getParams = '';
+        foreach ($params as $param => $value){
+            $getParams .= $param . '=' . $value . '&';
+        }
+        return '/?controller=' . strtolower($controller) . '&action=' . strtolower($action) . '&' . $getParams;
     }
     /**
      * returns a 404 page

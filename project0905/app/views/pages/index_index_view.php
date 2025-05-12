@@ -1,4 +1,4 @@
-<h2>All articles</h2>
+<h1>All articles</h1>
 <?php foreach ($articles as $i => $article): ?>
-    <a href="<?=$i?>"><?=$article['title']?></a>
+    <div><a href="<?= app\core\Route::url(action: 'read', params:['id' => $i]);?>"><?=$article['title']?></a></div>
 <?php endforeach; ?>

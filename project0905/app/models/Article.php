@@ -8,7 +8,7 @@ class Article
     public function __construct()
     {
         $this->readArticles();
-    } 
+    }
     /**
      * Reads articles from a file and returns them as a list
      * @return void
@@ -24,7 +24,7 @@ class Article
         }
     }
 
-        /**
+    /**
      * Saves articles to the JSON file
      * @return void
      */
@@ -39,7 +39,13 @@ class Article
      */
     public function all(): mixed
     {
-        return $this->articles;
+        $sorted = $this->articles;
+
+        uasort($sorted, function ($a, $b) {
+            return $b['date'] <=> $a['date'];
+        });
+
+        return $sorted;
     }
     /**
      * adds articles to the array and saves them to a file
@@ -49,7 +55,12 @@ class Article
     public function add(string $title, string $content): void
     {
         $date = time();
-        $article = ["title"=> $title,"content"=> $content,"date"=> $date];
+        $article = [
+            'title' => $title,
+            'content' => $content,
+            'date' => $date,
+
+        ];
         $this->articles[] = $article;
         $this->saveArticles();
     }
@@ -69,8 +80,10 @@ class Article
      * @param string $article
      * @return void
      */
-    public function update(int $id, string $article): void
+    public function update(int $id, string $title, string $content): void
     {
+        $date = time();
+        $article = ['title' => $title, 'content' => $content, 'date' => $date];
         $this->articles[$id] = $article;
         $this->saveArticles();
     }
@@ -79,8 +92,13 @@ class Article
      * @param int $id
      * @return string
      */
-    public function find(int $id): string
+    public function find(int $id): ?array
     {
-        return $this->articles[$id];
+        return $this->articles[$id] ?? null;
+    }
+
+    public function comment(int $id, string $name, string $comment): void
+    {
+        $this->articles[$id]['comments'] = ['name' => $name, 'comment' => $comment];
     }
 }

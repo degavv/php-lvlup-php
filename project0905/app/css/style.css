@@ -19,3 +19,10 @@ a.button{
     color: #000000;
     font-weight: 600;
 }
+/* ----------------------------------------------------- */
+
+.comment-form{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
