@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use app\core\View;
-use app\models\Article;
-use app\core\Route as Route;
+use app\models\ArticleRepository;
+use app\core\Route;
 /**
  * main page controller
  */
@@ -16,7 +16,7 @@ class Index
     public function __construct()
     {
         $this->view = new View();
-        $this->article = new Article();
+        $this->article = new ArticleRepository(ARTICLES_FILE);
     }
     /**
      * index action handler
@@ -39,10 +39,12 @@ class Index
         }
 
         $id = (int) $idRaw;
-        $article = $this->article->find($id);
-        if (!$article) {
+        $results = $this->article->find('id', $id);
+
+        if (empty($results)) {
             Route::notFound();
         }
+        $article = $results[0];
         $article_title = $article['title'];
         $article_content = $article['content'];
         // var_dump($article_content, $article_title);

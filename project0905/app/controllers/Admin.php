@@ -3,8 +3,7 @@
 namespace app\controllers;
 
 use app\core\View;
-use app\models\Article;
-use app\core\Route as Route;
+use app\models\ArticleRepository;
 
 class Admin
 {
@@ -14,7 +13,7 @@ class Admin
     public function __construct()
     {
         $this->view = new View();
-        $this->article = new Article();
+        $this->article = new ArticleRepository();
     }
     /**
      * index action handler
