@@ -1,5 +1,6 @@
 <h1>Welcome to Admin-Panel</h1>
-<table>
+<a href="<?=app\core\Route::url('admin', 'create');?>" class="button">Create new</a>
+<table class="dashboard">
     <thead>
         <tr>
             <th>id</th>
@@ -8,12 +9,12 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($articles as $i => $article): ?>
+        <?php foreach ($articles as $article): ?>
             <tr>
-                <td><?= $i ?></td>
+                <td><?= $article['id'] ?></td>
                 <td><?= $article['title'] ?></td>
-                <td><a href="">update</a></td>
-                <td><a href="">delete</a></td>
+                <td><a href="<?= app\core\Route::url('admin', 'edit', ['id' => $article['id']]);?>">edit</a></td>
+                <td><a href="<?= app\core\Route::url('admin', 'delete', ['id' => $article['id']]);?>">delete</a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

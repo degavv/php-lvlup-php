@@ -16,10 +16,21 @@ use \app\models\Storage;
  */
 class CommentRepository extends Repository
 {
+    protected static $instance = null;
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)){
+            self::$instance = new self(COMMENTS_FILE);
+        }
+        return self::$instance;
+    }
     public function add(int $articleId, string $name, string $comment): void
     {
         $newComment = ['articleId' => $articleId, 'name' => $name, 'comment' => $comment];
         $this->storage->add($newComment);
     }
-
+    public function delete(int $articleId)
+    {
+        $this->storage->deleteByField('articleId', $articleId);
+    }
 }

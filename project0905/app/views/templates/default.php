@@ -10,12 +10,15 @@
     <link rel="stylesheet" href="app/css/style.css">
 </head>
 
-<body>
-    <div class="logo">
-        <a href="<?= \app\core\Route::url() ?>">Home</a>
+<body class="flex">
+    <div class="page-wrapper flex">
+        <div class="logo">
+            <a href="<?= \app\core\Route::url() ?>">site name</a>
+        </div>
+        <main>
+            <?php include_once $viewPath ?>
+        </main>
     </div>
-    <!-- <h1><?= $title ?></h1> -->
-    <?php include_once $viewPath ?>
 
 </body>
 

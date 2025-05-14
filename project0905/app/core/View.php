@@ -1,6 +1,7 @@
 <?php
 
 namespace app\core;
+
 /**
  * Responsible for connecting a specific template and displaying a page.
  */

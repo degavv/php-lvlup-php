@@ -17,6 +17,7 @@ class Route
      * @var string
      */
     public const DEFAULT_ACTION = 'index';
+
     /**
      * method of processing input parameters
      * @return void
@@ -41,6 +42,7 @@ class Route
         }
         $controller->$actionName();
     }
+
     /**
      * returns url
      * @param string $controller

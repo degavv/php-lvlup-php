@@ -39,18 +39,20 @@ class Storage
     }
 
     /**
-     * returns all articles
+     * Returns all elements of the json file as an associative array and sorts them by date field (if any) in descending order
      * @return mixed
      */
-    public function all(): mixed
+    public function all(): array
     {
-        $sorted = $this->data;
-
-        uasort($sorted, function ($a, $b) {
+        $data = $this->data;
+        if(!isset($data[0]['date'])){
+            return $data;
+        }
+        uasort($data, function ($a, $b) {
             return $b['date'] <=> $a['date'];
         });
 
-        return $sorted;
+        return $data;
     }
     /**
      * adds articles to the array and saves them to a file

@@ -5,6 +5,15 @@ use app\models\Storage;
 
 class ArticleRepository extends Repository
 {
+    protected static $instance = null;
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)){
+            self::$instance = new self(ARTICLES_FILE);
+        }
+        return self::$instance;
+    }
+
     public function all(): mixed
     {
         $sorted = $this->storage->all();
@@ -44,7 +53,10 @@ class ArticleRepository extends Repository
 
     public function delete(int $id): void
     {
-        $this->storage->delete($id);
+        $status = $this->storage->delete($id);
+        if (!$status){
+            exit('Сталась помилка при видаленні');
+        }
     }
 
     private static function generateNextId(array $articles): int
