@@ -11,4 +11,3 @@ spl_autoload_register(function ($className){
     return false;
 });
 
-\app\core\Route::init();

@@ -126,3 +126,6 @@ article{
     font-weight: 600;
     height: 20px;
 }
+.error{
+    color: #ff0000;
+}

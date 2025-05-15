@@ -83,18 +83,6 @@ class Storage
 
         return false;
     }
-
-    /**
-     * returns article by id
-     * @param int $id
-     * @return string
-     */
-    public function find(int $id): ?array
-    {
-        
-        return $this->data[$id] ?? null;
-    }
-
     public function update(int $id, array $newData): bool
     {
         foreach ($this->data as $index => $item) {

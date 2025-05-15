@@ -1,4 +1,7 @@
-<h1>Welcome to Admin-Panel</h1>
+<div>
+    <h1>Welcome to Admin-Panel</h1>
+    <a href="<?=app\core\Route::url('auth', 'logout')?>">LOGOUT</a>
+</div>
 <a href="<?=app\core\Route::url('admin', 'create');?>" class="button">Create new</a>
 <table class="dashboard">
     <thead>

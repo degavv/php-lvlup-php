@@ -32,8 +32,8 @@ include_once("app/bootstrap.php");
 
 
 //************************************************************ */
-$article = new ArticleRepository(ARTICLES_FILE);
-var_dump($article->find('id', 2));
+// $article = new ArticleRepository(ARTICLES_FILE);
+// var_dump($article->find('id', 2));
 // $article->add('test2', 'Content1234 QWERTY');
 // var_dump($article->all());
 // $article->delete(1);
