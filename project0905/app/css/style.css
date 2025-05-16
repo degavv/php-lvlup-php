@@ -12,7 +12,7 @@
 body {
     justify-content: center;
     min-height: 100vh;
-    background-image: linear-gradient(#f6fe88, #eceee2);
+    background-image: linear-gradient(#6e7b92, #e6e6e6);
 }
 
 .page-wrapper {
@@ -80,7 +80,7 @@ table.dashboard{
 .logo>a{
     text-transform: uppercase;
     font-weight: 600;
-    color: #808e00;
+    color: #4f5974;
 }
 main{
     padding: 50px 0;
@@ -89,12 +89,15 @@ main{
     margin-bottom: 10px;
     padding: 10px 0;
     border-bottom: 1px solid rgb(211, 211, 211);
+    display: flex;
+    justify-content: space-between;
 }
 article{
     border-top: 1px solid rgb(211, 211, 211);
     border-bottom: 1px solid rgb(211, 211, 211);
     margin-bottom: 20px;
     padding: 5px 0;
+    line-height: 1.75rem;
 }
 .comment-form{
     margin: 20px 0;
@@ -128,4 +131,14 @@ article{
 }
 .error{
     color: #ff0000;
+}
+article>header{
+    padding: 20px 0;
+}
+.article>a{
+    color: #2556e6;
+    font-weight: 600;
+}
+h1{
+    padding-bottom: 20px;
 }

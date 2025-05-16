@@ -17,7 +17,7 @@ class Admin
 
     public function __construct()
     {
-        $this->view = new View();
+        $this->view = new View('admin');
         $this->article = ArticleRepository::getInstance();
         $this->comment = CommentRepository::getInstance();
     }

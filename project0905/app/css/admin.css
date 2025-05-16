@@ -1,0 +1,159 @@
+:root {
+    --links-color: #797979;
+    --border-color: #dfdfdf;
+    --footer-color: #f6f6f6;
+    --color-blue: #3f46ae;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style-type: none;
+    box-sizing: border-box;
+}
+
+.flex {
+    display: flex;
+}
+
+body {
+    background-color: #1f2937;
+    color: #f6f6f6;
+}
+
+a {
+    color: #f6f6f6;
+}
+
+.page-wrapper {
+    flex-direction: column;
+    height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
+}
+
+/* Header Block Start */
+header {
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+nav {
+    justify-content: space-between;
+    align-items: center;
+}
+
+table {
+    min-width: 100%;
+    border-collapse: collapse;
+    border-color: inherit;
+    text-indent: 0;
+    table-layout: fixed;
+    border-spacing: 2px;
+    border: 1px solid var(--border-color);
+}
+
+tbody {
+    border-bottom-width: calc(1px * 0);
+}
+
+th {
+    text-transform: uppercase;
+    font-weight: 500;
+    text-align: left;
+    padding: 1rem;
+    font-size: .75rem;
+    line-height: 1rem;
+}
+
+thead {
+    background-color: rgb(55 65 81 / 1);
+}
+
+tr {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* За потреби можна прибрати рамку для першого або останнього рядка */
+tr:first-child {
+    border-top: none;
+}
+
+tr:last-child {
+    border-bottom: none;
+}
+
+.w-4 {
+    width: 1rem;
+}
+.h-4 {
+    height: 1rem;
+}
+.mr-2 {
+    margin-right: .5rem;
+}
+td {
+    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    white-space: nowrap;
+    line-height: 1.25rem;
+}
+td.title{
+    width: 70%;
+}
+
+main {
+    width: 80%;
+    align-self: center;
+}
+.wrapper-dashboard{
+    width: 100%;
+    align-self: center;
+}
+a.button{
+    border: 1px solid var(--border-color);
+    font-size: .875rem;
+    align-items: center;
+    border-radius: .5rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+    text-align: center;
+    cursor: pointer;
+}
+a.edit{
+    background-color: rgb(37 99 235 / 1);
+}
+a.delete{
+    background-color: rgb(200 30 30 / 1);
+}
+.create-article{
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+.article-create-form{
+    width: 600px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+.article-create-form>*{
+    margin-bottom: 10px;
+}
+textarea{
+    height: 400px;
+}
+input[type='text']{
+    height: 30px;
+}

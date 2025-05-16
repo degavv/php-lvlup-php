@@ -1,12 +1,11 @@
 <?php
 
 namespace app\models;
-use app\models\Storage;
 use app\models\Repository;
+use app\core\Session;
 
 class Auth extends Repository{
     protected static $instance = null;
-    // protected $isAuth = false;
     public static function getInstance()
     {
         if (is_null(self::$instance)){

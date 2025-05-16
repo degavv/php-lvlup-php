@@ -4,7 +4,7 @@ namespace app\controllers;
 use app\core\Route;
 use app\core\View;
 use app\models\Auth as AuthModel;
-use app\models\Session;
+use app\core\Session;
 
 //TODO CheckSession, CreateSession, CheckUser, CreateUser
 class Auth
@@ -15,7 +15,7 @@ class Auth
     public function __construct()
     {
         $this->auth = AuthModel::getInstance();
-        $this->view = new View();
+        $this->view = new View('auth');
         Session::start();
     }
 
