@@ -13,7 +13,6 @@
         <header>
             <nav class="flex">
                 <h1>Welcome to Admin-Panel</h1>
-                <a href="<?= app\core\Route::url('auth', 'logout') ?>">LOGOUT</a>
             </nav>
         </header>
         <main class="flex">

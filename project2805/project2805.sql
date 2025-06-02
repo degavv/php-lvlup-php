@@ -9,8 +9,3 @@ CREATE TABLE
         password VARCHAR(255) NOT NULL,
         email VARCHAR(100) NOT NULL UNIQUE
     );
-
-INSERT INTO
-    users (login, password, email)
-VALUES
-    ('login_EX', 'password_EX', 'email_EX');

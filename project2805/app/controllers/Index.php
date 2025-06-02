@@ -34,62 +34,39 @@ class Index
         $this->view->render('user_create');
     }
 
-    public function save(): never
+    public function save(): void
     {
         $login = $_POST['login'];
         $password = $_POST['password'];
-        $email = $_POST['email'];
-        // $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-        $status = $this->user->add($login, $password, $email);
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 
-        // var_dump($login, $password, $email);
-        if (is_string($status)) {
-        //     Route::redirect(Route::url('index', 'create', [
-        //         'login' => $login, 
-        //         'password' => $password, 
-        //         'email' => $email, 
-        //         'error' => $status,
-        // ]));
-            
+        $checkLogin = $this->user->find('login', $login);
+        $checkEmail = $this->user->find('email', $email);
+
+        $existingLogin = $checkLogin[0]['login'];
+        $existingEmail = $checkEmail[0]['email'];
+        if ($existingLogin !== null) {
+            $error = 'this login already exists';
+        } elseif ($existingEmail !== null) {
+            $error = 'this email already exists';
+        } else {
+            $passHash = password_hash($password, PASSWORD_DEFAULT);
+            $status = $this->user->add($login, $passHash, $email);
+            if ($status) {
+                Route::redirect(Route::url());
+            } else {
+                $error = 'An error occurred. Please try again.';
+            }
         }
+
+        $this->view->render('user_create', ['error' => $error, 'login' => $login, 'password' => $password, 'email' => $email,]);
+    }
+
+    public function delete(): never
+    {
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $this->user->delete($id);
+
         Route::redirect(Route::url());
     }
-    /**
-     * read an article handler
-     * @return void
-     */
-    // public function read(): void
-    // {
-    //     $idRaw = $_GET['id'] ?? null;
-    //     if (!is_numeric($idRaw)) {
-    //         Route::notFound();
-    //     }
-
-    //     $id = (int) $idRaw;
-    //     $results = $this->article->find('id', $id);
-
-    //     if (empty($results)) {
-    //         Route::notFound();
-    //     }
-    //     $article = $results[0];
-    //     $article_title = $article['title'];
-    //     $article_content = $article['content'];
-    //     $comments = $this->comment->find('articleId',$id);
-    //     $this->view->render('index_read', [
-    //         'id' =>$id,
-    //         'title' => $article_title,
-    //         'article_title' => $article_title,
-    //         'article_content' => $article_content,
-    //         'comments' => $comments,
-    //     ]);
-    // }
-
-    // public function comment():void
-    // {
-    //     $id = (int) $_POST['id'];
-    //     $name = $_POST['name'];
-    //     $comment = $_POST['comment'];
-    //     $this->comment->add($id,$name, $comment);
-    //     Route::redirect(Route::url('index', 'read', ['id' => $id]));
-    // }
 }
