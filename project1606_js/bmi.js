@@ -11,19 +11,23 @@ function getWeight() {
 function exitProgramPopup() {
     let msg = 'Натисніть OK для виходу з програми або CANCEL для повернення';
     let select = confirm(msg);
-    
+
     return select;
 };
 
+//if Cancel selected restarts input function. If Ok selected return exit
 function exitProgramProc(selection, backToFunc, arg = null) {
     if (selection) {
         alert('До побачення!');
         return 'exit';
     } else {
-        if(arg !== null){
-            backToFunc(arg);  
+        console.log('backToFunc');
+
+        if (arg !== null) {
+            console.log(backToFunc + arg);
+            return backToFunc(arg);
         } else {
-            backToFunc();
+            return backToFunc();
         }
     }
 };
@@ -48,27 +52,23 @@ function validation(value) {
     return error;
 }
 
-// promptType getHeight|getWeight
+// promptFunc getHeight|getWeight
 function promptProc(promptFunc) {
     let inputValue = promptFunc();
 
     //Cancel
     if (inputValue === null) {
         let selection = exitProgramPopup();
-        let exit = exitProgramProc(selection, promptProc, promptFunc);
-        if(exit === 'exit'){
-            return 'exit';
-        }
+        return exitProgramProc(selection, promptProc, promptFunc);
     } else {
         let error = validation(inputValue);
         if (error) {
             alert(error);
-            promptProc(promptFunc);
+            return promptProc(promptFunc);
         } else {
             return +inputValue;
         }
     }
-
 }
 
 function calcBMI(heightCent, weightKilo) {
@@ -97,17 +97,19 @@ function getDietAdvice(BMI) {
 
 function init() {
     let height = promptProc(getHeight);
-    if(height === 'exit'){
+    console.log('height = ' + height);
+    if (height === 'exit') {
         return;
     }
     let weight = promptProc(getWeight);
-        if(weight === 'exit'){
+    console.log(height);
+    if (weight === 'exit') {
         return;
     }
     let BMI = calcBMI(height, weight);
-
     alert(getDietAdvice(BMI));
-    init();
+
+    return exitProgramProc(exitProgramPopup(), init);
 };
 
 init();
