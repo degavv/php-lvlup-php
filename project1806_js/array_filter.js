@@ -54,8 +54,8 @@ function filterPrime(value) {
     } else if (value % 2 === 0) {
         return false;
     } else {
-        let sqrt = squareRoot(value);
-        for (let i = 3; i <= sqrt + 1; i += 2) {
+        let sqrt = squareRoot(value) + 1;
+        for (let i = 3; i <= sqrt; i += 2) {
             if (value % i === 0) {
                 return false;
             }
