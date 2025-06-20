@@ -54,7 +54,8 @@ function filterPrime(value) {
     } else if (value % 2 === 0) {
         return false;
     } else {
-        for (let i = 3; i < value; i += 2) {
+        let sqrt = squareRoot(value);
+        for (let i = 3; i <= sqrt + 1; i += 2) {
             if (value % i === 0) {
                 return false;
             }
@@ -62,6 +63,15 @@ function filterPrime(value) {
     }
 
     return true;
+}
+
+function squareRoot(n) {
+    var avg = (a, b) => (a + b) / 2, c = 5, b;
+    for (let i = 0; i < 20; i++) {
+        b = n / c;
+        c = avg(b, c);
+    }
+    return c;
 }
 
 function exitProgramPopup() {
