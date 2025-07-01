@@ -9,42 +9,33 @@ function PythagorasTable() {
         return end;
     }
 
-    this.createTable = function (array) {
+    this.createTable = function (start, end) {
         const table = document.querySelector('.pythagoras');
-        console.log(table);
-        let content = '';
-        for (let i = 0; i < array.length; i++) {
-            content += `<tr>`;
 
-            for (let j = 0; j < array.length; j++) {
-                content += `<td>${array[i][j]}</td>`;
+        //Заголовки
+        let content = '<tr><th></th>';
+        for (let i = start; i <= end; i++) {
+            content += `<th>${i}</th>`;
+        }
+        content += `</tr>`;
+
+        for (let i = start; i <= end; i++) {
+            content += `<tr><td>${i}</td>`;
+            for (let j = start; j <= end; j++){
+                content += `<td>${j * i}</td>`;
             }
-            content += `</tr>`
+            content += `</tr>`;
         }
         table.innerHTML = content;
     }
-
-    this.multiplication = function (start, end) {
-        let res = [];
-        for (let i = start; i <= end; i++) {
-            let row = [];
-            for (let j = start; j <= end; j++) {
-                row.push(i * j);
-            }
-            res.push(row);
-        }
-        return res;
-    }
 }
 
-function init(){
+function init() {
     const table = new PythagorasTable();
     let start = table.inputStart();
     let end = table.inputEnd();
-    let matrix = table.multiplication(start, end);
-    console.dir(matrix);
-    
-    table.createTable(matrix);
+
+    table.createTable(start, end);
 }
 
 init();

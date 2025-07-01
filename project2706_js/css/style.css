@@ -4,8 +4,13 @@ table {
     text-align: center;
 }
 
-td {
+td, th {
     border: 1px solid black;
     padding: 10px;
     background-color: #f0ffff;
+}
+
+td:first-child, th{
+    background-color: #c9c9c9;
+    font-weight: 600;
 }
