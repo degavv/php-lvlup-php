@@ -2,28 +2,39 @@ const images = document.querySelectorAll('section.gallery img');
 const buttons = document.querySelectorAll('div.button');
 
 function slider() {
-
     buttons.forEach(function (button) {
         button.addEventListener('click', function () {
-            let active = null;
+            let activeId = null;
+            let step = button.classList.contains('next-button') ? 1 : -1;
 
             for (let i = 0; i < images.length; i++) {
                 if (images[i].classList.contains('active')) {
-                    active = i;
+                    activeId = i;
                     break;
                 }
             }
-            let step = button.classList.contains('next-button') ? 1 : -1;
-            if (active !== null) {
-                images[active].classList.remove('active');
-                let next = active + step;
-                if (next >= images.length){
+
+            if (activeId !== null) {
+                let next = activeId + step;
+                if (next < 0) {
+                    next = images.length - 1;
+                } else if (next >= images.length) {
                     next = 0;
                 }
-                images[active + next].classList.add('active');
-                console.log(active);
+                images[activeId].classList.remove('active');
+                images[next].classList.add('active');
             }
         })
     });
 }
+
+function addScale() {
+    document.querySelector('section.gallery').addEventListener('click', function (e) {
+        console.log(e.target);
+        if (e.target.classList.contains('active')) {
+            e.target.classList.toggle('scale');
+        }
+    });
+}
 slider();
+addScale();
