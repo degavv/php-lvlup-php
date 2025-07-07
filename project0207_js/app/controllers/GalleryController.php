@@ -21,4 +21,8 @@ class GalleryController
         $this->view->render('index_index' ,['photos' => $photos,]);
     }
 
+    public function upload()
+    {
+        var_dump($_FILES);
+    }
 }
