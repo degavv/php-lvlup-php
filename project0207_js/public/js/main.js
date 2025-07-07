@@ -20,7 +20,7 @@ function slider() {
                     next = images.length - 1;
                 } else if (next >= images.length) {
                     next = 0;
-                }
+                } 
                 images[activeId].classList.remove('active');
                 images[next].classList.add('active');
             }
