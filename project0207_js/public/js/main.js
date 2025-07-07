@@ -1,6 +1,12 @@
 const images = document.querySelectorAll('section.gallery img');
 const buttons = document.querySelectorAll('div.button');
 
+function assignActive() {
+    if (images.length > 0) {
+        images[0].classList.add('active');
+    }
+}
+
 function slider() {
     buttons.forEach(function (button) {
         button.addEventListener('click', function () {
@@ -20,7 +26,7 @@ function slider() {
                     next = images.length - 1;
                 } else if (next >= images.length) {
                     next = 0;
-                } 
+                }
                 images[activeId].classList.remove('active');
                 images[next].classList.add('active');
             }
@@ -30,11 +36,16 @@ function slider() {
 
 function addScale() {
     document.querySelector('section.gallery').addEventListener('click', function (e) {
-        console.log(e.target);
         if (e.target.classList.contains('active')) {
             e.target.classList.toggle('scale');
         }
     });
 }
-slider();
-addScale();
+
+function init() {
+    assignActive();
+    slider();
+    addScale();
+}
+
+init();
