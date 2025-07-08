@@ -1,13 +1,14 @@
 const images = document.querySelectorAll('section.gallery img');
 const buttons = document.querySelectorAll('div.button');
+const uploadForm = document.querySelector('form.form-upload');
 
-function assignActive() {
+function assignActiveImg() {
     if (images.length > 0) {
         images[0].classList.add('active');
     }
 }
 
-function slider() {
+function createSlider() {
     buttons.forEach(function (button) {
         button.addEventListener('click', function () {
             let activeId = null;
@@ -42,10 +43,58 @@ function addScale() {
     });
 }
 
+function getImages() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/?controller=api&action=all_photos');
+    xhr.onload = function () {
+        if (xhr.status == 200) {
+            //TODO Show images
+        }
+    }
+}
+
+function showNotifications (notificationsList, statusCode){
+    let notification = document.createElement('div');
+    notification.className = ('notification');
+    let code = String(statusCode);
+    
+    if (code[0] == 2){
+        notification.classList.add('success');
+    } else {
+        notification.classList.add('error');
+    }
+
+    notification.innerText = notificationsList[0];
+    let page = document.querySelector('div.page');
+    page.append(notification);
+}
+
+function uploadImage() {
+    uploadForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/?controller=api&action=upload_photo');
+        xhr.send(formData);
+        this.reset();
+        xhr.onload = function () {
+            let msg = [];
+            if (xhr.status == 201) {
+                msg[0] = "Upload successful";
+            } else if (xhr.status == 422) {
+                let response = this.responseText;
+                msg[0] = JSON.parse(response)['errors'];
+            }
+            showNotifications(msg, xhr.status);
+        }
+    });
+}
+
 function init() {
-    assignActive();
-    slider();
+    assignActiveImg();
+    createSlider();
     addScale();
+    uploadImage();
 }
 
 init();
