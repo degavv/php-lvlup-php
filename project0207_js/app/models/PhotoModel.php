@@ -28,4 +28,13 @@ class PhotoModel
 
         return $photos;
     }
+
+    public function store(array $uploadedFile): string
+    {
+        $newName = uniqid() . '_' . basename($uploadedFile['name']);
+        $destination = PHOTO_UPLOAD_DIR . DIRECTORY_SEPARATOR . $newName;
+        move_uploaded_file(($uploadedFile['tmp_name']), $destination);
+
+        return $newName;
+    }
 }
