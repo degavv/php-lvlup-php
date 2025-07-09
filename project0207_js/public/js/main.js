@@ -53,20 +53,36 @@ function getImages() {
     }
 }
 
-function showNotifications (notificationsList, statusCode){
+function showNotifications(notificationsList, statusCode) {
     let notification = document.createElement('div');
-    notification.className = ('notification');
+    notification.className = 'notification';
     let code = String(statusCode);
-    
-    if (code[0] == 2){
+
+    if (code[0] == 2) {
         notification.classList.add('success');
     } else {
         notification.classList.add('error');
     }
 
     notification.innerText = notificationsList[0];
+    //close button
+    let close = document.createElement('div');
+    close.className = 'close-button';
+
     let page = document.querySelector('div.page');
     page.append(notification);
+    notification.append(close);
+    closeNotification();
+    setTimeout(function () {
+        document.querySelector('div.notification').remove();
+    }, 4000);
+}
+
+function closeNotification() {
+    let closeButton = document.querySelector('div.close-button');
+    closeButton.addEventListener('click', function () {
+        document.querySelector('div.notification').remove();
+    });
 }
 
 function uploadImage() {
