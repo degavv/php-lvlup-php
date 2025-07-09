@@ -1,10 +1,13 @@
 <?php
 
 namespace app\core;
-
+/**
+ * Class View
+ */
 class View
 {
     /**
+     * Basic template
      * @var string
      */
     protected $template = 'default';

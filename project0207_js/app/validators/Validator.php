@@ -1,9 +1,16 @@
 <?php
 
 namespace app\validators;
-
-class PhotoValidator
+/**
+ * Validates something 
+ */
+class Validator
 {
+    /**
+     * Validates the photo according to the specified criteria
+     * @param mixed $uploadedFile
+     * @return array
+     */
     public static function validate($uploadedFile): array
     {
         $errors = [];

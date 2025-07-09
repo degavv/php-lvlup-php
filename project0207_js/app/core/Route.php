@@ -3,7 +3,15 @@ namespace app\core;
 
 class Route
 {
-    const DEFAULT_CONTROLLER = 'gallery';
+    /**
+     * Default controller
+     * @var string
+     */
+    const DEFAULT_CONTROLLER = 'index';
+    /**
+     * Default action
+     * @var string
+     */
     const DEFAULT_ACTION = 'index';
 
     /**

@@ -21,6 +21,7 @@ body {
     justify-content: space-between;
     padding: 20px;
     overflow: hidden;
+    position: relative;
 }
 
 main {
@@ -30,14 +31,29 @@ main {
     align-items: center;
 }
 
-section.gallery {
+section.gallery{
     position: relative;
-    justify-content: center;
+}
+/* section.gallery { */
+    /* position: relative; */
+    /* background: #000; */
+    /* justify-content: center; */
+    /* max-width: 1000px;
+    min-width: 800px;
+    min-height: 500px; */
+    /* transition-property: all;
+    transition-duration: 1s; */
+/* } */
+
+div.img-container {
+    position: relative;
     max-width: 1000px;
     min-width: 800px;
     min-height: 500px;
     transition-property: all;
     transition-duration: 1s;
+    justify-content: center;
+    align-items: center;
 }
 
 img.gallery-image {
@@ -53,6 +69,18 @@ img.gallery-image {
     box-shadow: 3px 3px 3px #4e4e4e;
 }
 
+img.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+img.scale {
+    max-width: calc(80vw - 50px);
+    width: calc(80vw - 50px);
+    z-index: 3;
+    position: absolute;
+}
+
 .button {
     position: absolute;
     width: 0;
@@ -64,11 +92,11 @@ img.gallery-image {
 }
 
 .prev-button:hover {
-    border-right: 20px solid rgba(255, 255, 255, 0.878);
+    border-right: 20px solid rgba(251, 175, 175, 0.878);
 }
 
 .next-button:hover {
-    border-left: 20px solid rgba(255, 255, 255, 0.878);
+    border-left: 20px solid rgba(251, 175, 175, 0.878);
 }
 
 .prev-button {
@@ -85,17 +113,9 @@ img.gallery-image {
     right: 10px;
 }
 
-img.active {
-    opacity: 1;
-    z-index: 1;
-}
 
-img.scale {
-    max-width: calc(80vw - 50px);
-    width: calc(80vw - 50px);
-    z-index: 3;
-    position: relative;
-    transition-duration: 0;
+.form-upload {
+    margin: 20px 0 20px;
 }
 
 .form-upload>input[type='submit'] {
@@ -113,4 +133,35 @@ img.scale {
     border-radius: 5px;
     color: #ffffff;
     margin-left: 5px;
+}
+
+.notification {
+    width: 200px;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    color: #ffffff;
+    padding: 10px 20px;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+}
+
+.error {
+    background-color: #bd2c2c;
+}
+
+.success {
+    background-color: #19b12b;
+}
+
+.close-button {
+    background-image: url(../img/close.svg);
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    cursor: pointer;
 }

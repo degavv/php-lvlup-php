@@ -8,7 +8,7 @@ const PHOTO_AVAILABLE_TYPES = [
     'image/png',
     'image/webp',
 ];
-const PHOTO_MAX_FILE_SIZE = 1024 * 1024 * 5;
+const PHOTO_MAX_FILE_SIZE = 1024 * 1024 * 2;
 const FILE_UPLOAD_ERRORS = [
     0 => 'Файл успішно завантажено.',
     1 => 'Завантажений файл перевищує максимальний розмір.',
